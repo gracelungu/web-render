@@ -8,6 +8,7 @@ paths:
   /render:
     post:
       summary: Render HTML, CSS, and JavaScript to a markdown image link
+      operationId: renderPage
       requestBody:
         required: true
         content:
