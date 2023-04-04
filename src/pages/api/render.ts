@@ -36,7 +36,9 @@ const renderImage = async (
   const browser = await puppeteer.launch({
     args: chromium.args,
     defaultViewport: chromium.defaultViewport,
-    executablePath: await chromium.executablePath(),
+    executablePath: await chromium.executablePath(
+      "https://web-render.vercel.app/chromium-v112.0.2-pack.tar"
+    ),
     headless: chromium.headless,
   });
 
