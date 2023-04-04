@@ -1,16 +1,15 @@
 /* eslint-disable import/no-anonymous-default-export */
 // pages/api/render.ts
-import type { NextApiRequest, NextApiResponse } from "next";
-import puppeteer from "puppeteer-core";
-import chromium from "@sparticuz/chromium";
-import fs from "fs";
-import path from "path";
-import { v4 as uuidv4 } from "uuid";
+import type { NextApiRequest, NextApiResponse } from 'next';
+import { chromium as chromiumPreset } from 'playwright-aws-lambda';
+import fs from 'fs';
+import path from 'path';
+import { v4 as uuidv4 } from 'uuid';
 
 const ONE_WEEK_MS = 7 * 24 * 60 * 60 * 1000;
 
 const cleanupTempImages = async () => {
-  const tempDir = path.join(process.cwd(), "public", "temp");
+  const tempDir = path.join(process.cwd(), 'public', 'temp');
   const files = await fs.promises.readdir(tempDir);
 
   const currentTime = Date.now();
@@ -31,26 +30,19 @@ const renderImage = async (
   javascript: string,
   viewportWidth: number,
   viewportHeight: number,
-  imageFormat: "jpeg" | "png"
+  imageFormat: 'jpeg' | 'png',
 ): Promise<string> => {
-  const browser = await puppeteer.launch({
-    args: chromium.args,
-    defaultViewport: chromium.defaultViewport,
-    executablePath: await chromium.executablePath(
-      "https://web-render.vercel.app/chromium-v112.0.2-pack.tar"
-    ),
-    headless: chromium.headless,
-  });
+  const browser = await chromiumPreset.launch();
 
   const page = await browser.newPage();
-  await page.setViewport({ width: viewportWidth, height: viewportHeight });
+  await page.setViewportSize({ width: viewportWidth, height: viewportHeight });
   await page.setContent(`
     <style>${css}</style>
     ${html}
     <script>${javascript}</script>
   `);
 
-  const filename = uuidv4() + "." + imageFormat;
+  const filename = uuidv4() + '.' + imageFormat;
   const filepath = `./public/temp/${filename}`;
   const publicUrl = `/temp/${filename}`;
 
@@ -65,14 +57,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const {
     html,
     css,
-    javascript = "",
+    javascript = '',
     viewportWidth = 640,
     viewportHeight = 640,
-    imageFormat = "png",
+    imageFormat = 'png',
   } = req.body;
 
   if (!html || !css) {
-    return res.status(400).json({ message: "HTML and CSS are required." });
+    return res.status(400).json({ message: 'HTML and CSS are required.' });
   }
 
   try {
@@ -82,11 +74,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       javascript,
       viewportWidth,
       viewportHeight,
-      imageFormat
+      imageFormat,
     );
     return res.status(200).json({ imageUrl });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ message: "Error rendering image." });
+    return res.status(500).json({ message: 'Error rendering image.' });
   }
 };
