@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Web Render",
+  "name_for_model": "html_css_js_renderer",
+  "description_for_human": "Plugin for rendering HTML, CSS, and JavaScript into images, displaying the appearance of elements",
+  "description_for_model": "Plugin for rendering HTML, CSS, and JavaScript into images, displaying the appearance of elements",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://web-render.vercel.app/api/spec",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://web-render.vercel.app/logo.png",
+  "contact_email": "support@web-render.vercel.app",
+  "legal_info_url": "https://web-render.vercel.app/legal"
+}

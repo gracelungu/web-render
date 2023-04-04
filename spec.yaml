@@ -1,0 +1,71 @@
+openapi: 3.0.0
+info:
+  title: HTML/CSS/JS to Markdown Image Link API
+  version: 1.0.0
+servers:
+  - url: https://web-render.vercel.app/api
+paths:
+  /render:
+    post:
+      summary: Render HTML, CSS, and JavaScript to a markdown image link
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                html:
+                  type: string
+                  description: The HTML content to be rendered as an image.
+                css:
+                  type: string
+                  description: The CSS styles to be applied to the HTML content.
+                javascript:
+                  type: string
+                  description: The JavaScript code to be executed in the rendered page.
+                  default: ''
+                viewportWidth:
+                  type: integer
+                  description: The width of the viewport for rendering the image.
+                  default: 640
+                viewportHeight:
+                  type: integer
+                  description: The height of the viewport for rendering the image.
+                  default: 640
+                imageFormat:
+                  type: string
+                  description: The image format for the output image ('jpeg' or 'png').
+                  default: 'png'
+              required:
+                - html
+                - css
+      responses:
+        '200':
+          description: Successfully rendered the HTML, CSS, and JavaScript as a markdown image link.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  markdownImageLink:
+                    type: string
+                    description: The markdown image link containing the rendered HTML, CSS, and JavaScript as a base64-encoded image.
+        '400':
+          description: Bad request. HTML and CSS are required.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
