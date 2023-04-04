@@ -1,8 +1,8 @@
 /* eslint-disable import/no-anonymous-default-export */
 // pages/api/render.ts
 import type { NextApiRequest, NextApiResponse } from "next";
-import puppeteerCore from "puppeteer-core";
-import chromium from "chrome-aws-lambda";
+import puppeteer from "puppeteer-core";
+import chromium from "@sparticuz/chromium";
 import fs from "fs";
 import path from "path";
 import { v4 as uuidv4 } from "uuid";
@@ -33,9 +33,10 @@ const renderImage = async (
   viewportHeight: number,
   imageFormat: "jpeg" | "png"
 ): Promise<string> => {
-  const browser = await puppeteerCore.launch({
+  const browser = await puppeteer.launch({
     args: chromium.args,
-    executablePath: await chromium.executablePath,
+    defaultViewport: chromium.defaultViewport,
+    executablePath: await chromium.executablePath(),
     headless: chromium.headless,
   });
 
