@@ -1,7 +1,7 @@
 /* eslint-disable import/no-anonymous-default-export */
 // pages/api/render.ts
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { chromium as chromiumPreset } from 'playwright-aws-lambda';
+import { launchChromium } from 'playwright-aws-lambda';
 import fs from 'fs';
 import path from 'path';
 import { v4 as uuidv4 } from 'uuid';
@@ -32,7 +32,7 @@ const renderImage = async (
   viewportHeight: number,
   imageFormat: 'jpeg' | 'png',
 ): Promise<string> => {
-  const browser = await chromiumPreset.launch();
+  const browser = await launchChromium();
 
   const page = await browser.newPage();
   await page.setViewportSize({ width: viewportWidth, height: viewportHeight });
