@@ -2,7 +2,6 @@
 // pages/api/render.ts
 import type { NextApiRequest, NextApiResponse } from "next";
 import puppeteerCore from "puppeteer-core";
-import puppeteer from "puppeteer";
 import chromium from "chrome-aws-lambda";
 import fs from "fs";
 import path from "path";
@@ -34,19 +33,11 @@ const renderImage = async (
   viewportHeight: number,
   imageFormat: "jpeg" | "png"
 ): Promise<string> => {
-  let browser = {} as any;
-
-  if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
-    browser = await puppeteerCore.launch({
-      args: chromium.args,
-      executablePath: await chromium.executablePath,
-      headless: chromium.headless,
-    });
-  } else {
-    browser = await puppeteer.launch({
-      args: ["--no-sandbox", "--disable-setuid-sandbox"],
-    });
-  }
+  const browser = await puppeteerCore.launch({
+    args: chromium.args,
+    executablePath: await chromium.executablePath,
+    headless: chromium.headless,
+  });
 
   const page = await browser.newPage();
   await page.setViewport({ width: viewportWidth, height: viewportHeight });
