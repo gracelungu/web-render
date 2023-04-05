@@ -4,7 +4,6 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { launchChromium } from "playwright-aws-lambda";
 import FormData from "form-data";
 import fetch from "node-fetch";
-import { v4 as uuidv4 } from "uuid";
 
 const uploadToImgBB = async (buffer: Buffer): Promise<string> => {
   const formData = new FormData();
