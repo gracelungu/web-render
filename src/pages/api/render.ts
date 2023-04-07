@@ -40,8 +40,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     imageFormat = "png",
   } = req.body;
 
-  if (!html || !css) {
-    return res.status(400).json({ message: "HTML and CSS are required." });
+  if (!html) {
+    return res.status(400).json({ message: "HTML is required." });
   }
 
   try {
