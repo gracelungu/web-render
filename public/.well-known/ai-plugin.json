@@ -2,8 +2,8 @@
   "schema_version": "v1",
   "name_for_human": "Web Render",
   "name_for_model": "html_css_js_renderer",
-  "description_for_human": "Plugin for rendering HTML, CSS, and JavaScript into images, displaying the appearance of elements",
-  "description_for_model": "Plugin for rendering HTML, CSS, and JavaScript into images, displaying the appearance of elements",
+  "description_for_human": "Renders HTML and CSS code into images, which can then be embedded in the chat to display the output of the generated code",
+  "description_for_model": "Renders HTML and CSS code into images, displaying the appearance of elements, with the full power of HTML5 it can draw images using the canvas api",
   "auth": {
     "type": "none"
   },
